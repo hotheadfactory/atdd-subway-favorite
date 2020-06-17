@@ -1,13 +1,24 @@
 package wooteco.subway.domain.member;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
+@Embeddable
 public class Favorites {
-
     public static final String FAVORITE_NOT_EXIST = "등록되어 있지 않은 즐겨찾기입니다.";
-    private final Set<Favorite> favorites;
+
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JoinColumn(name = "member")
+    private Set<Favorite> favorites = new LinkedHashSet<>();
+
+    protected Favorites() {
+    }
 
     public Favorites(Set<Favorite> favorites) {
         this.favorites = favorites;
@@ -34,7 +45,8 @@ public class Favorites {
 
     public Optional<Favorite> findById(Long sourceId, Long destinationId) {
         return favorites.stream()
-                .filter(favorite -> favorite.getSourceId().equals(sourceId) && favorite.getDestinationId().equals(destinationId))
+                .filter(favorite -> favorite.getSourceStation().getId().equals(sourceId)
+                        && favorite.getDestinationStation().getId().equals(destinationId))
                 .findFirst();
     }
 

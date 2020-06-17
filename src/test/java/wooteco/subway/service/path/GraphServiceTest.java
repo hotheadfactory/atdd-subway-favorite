@@ -78,7 +78,7 @@ public class GraphServiceTest {
 
     @Test
     void findPathWithDisconnected() {
-        line2.removeLineStationById(station1.getId());
+        line2.removeLineStation(station1.getId());
 
         assertThrows(IllegalArgumentException.class, () ->
                 graphService.findPath(Lists.list(line1, line2), station3.getId(), station6.getId(), PathType.DISTANCE)

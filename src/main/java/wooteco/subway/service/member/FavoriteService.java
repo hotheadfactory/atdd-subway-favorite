@@ -7,7 +7,6 @@ import wooteco.subway.domain.member.Member;
 import wooteco.subway.domain.member.MemberRepository;
 import wooteco.subway.domain.station.Station;
 import wooteco.subway.service.exception.SameStationException;
-import wooteco.subway.service.exception.WrongStationException;
 import wooteco.subway.service.member.dto.FavoriteRequest;
 import wooteco.subway.service.member.dto.FavoriteResponse;
 import wooteco.subway.service.station.StationService;
@@ -27,17 +26,17 @@ public class FavoriteService {
 
     public void createFavorite(FavoriteRequest favoriteRequest, Member member) {
         validate(favoriteRequest);
-        Long sourceId = stationService.findStationByName(favoriteRequest.getSourceName()).getId();
-        Long destinationId = stationService.findStationByName(favoriteRequest.getDestinationName()).getId();
-        member.addFavorite(new Favorite(sourceId, destinationId));
+        Station sourceStation = stationService.findStationByName(favoriteRequest.getSourceName());
+        Station destinationStation = stationService.findStationByName(favoriteRequest.getDestinationName());
+        member.addFavorite(new Favorite(sourceStation, destinationStation));
         memberRepository.save(member);
     }
 
     public void removeFavorite(FavoriteRequest favoriteRequest, Member member) {
         validate(favoriteRequest);
-        Long sourceId = stationService.findStationByName(favoriteRequest.getSourceName()).getId();
-        Long destinationId = stationService.findStationByName(favoriteRequest.getDestinationName()).getId();
-        member.removeFavorite(Favorite.of(sourceId, destinationId));
+        Station sourceStation = stationService.findStationByName(favoriteRequest.getSourceName());
+        Station destinationStation = stationService.findStationByName(favoriteRequest.getDestinationName());
+        member.removeFavorite(Favorite.of(sourceStation, destinationStation));
         memberRepository.save(member);
     }
 
@@ -67,16 +66,8 @@ public class FavoriteService {
     }
 
     private FavoriteResponse toFavoriteResponse(List<Station> stations, Favorite favorite) {
-        String sourceName = getStationName(stations, favorite.getSourceId());
-        String destinationName = getStationName(stations, favorite.getDestinationId());
+        String sourceName = favorite.getSourceStation().getName();
+        String destinationName = favorite.getDestinationStation().getName();
         return new FavoriteResponse(sourceName, destinationName);
-    }
-
-    private String getStationName(List<Station> stations, Long sourceId) {
-        return stations.stream()
-                .filter(station -> station.getId().equals(sourceId))
-                .map(Station::getName)
-                .findFirst()
-                .orElseThrow(WrongStationException::new);
     }
 }

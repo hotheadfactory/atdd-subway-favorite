@@ -1,12 +1,16 @@
 package wooteco.subway.domain.station;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+@Entity
+@Table(name = "station")
 public class Station {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     @CreatedDate
@@ -34,5 +38,18 @@ public class Station {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Station station = (Station) o;
+        return Objects.equals(name, station.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

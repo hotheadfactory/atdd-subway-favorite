@@ -42,12 +42,12 @@ public class PathService {
 
         List<LineStation> lineStations = lines.stream()
                 .flatMap(it -> it.getStations().stream())
-                .filter(it -> Objects.nonNull(it.getPreStationId()))
+                .filter(it -> Objects.nonNull(it.getPreStation()))
                 .collect(Collectors.toList());
 
         List<LineStation> paths = extractPathLineStation(path, lineStations);
-        int duration = paths.stream().mapToInt(it -> it.getDuration()).sum();
-        int distance = paths.stream().mapToInt(it -> it.getDistance()).sum();
+        int duration = paths.stream().mapToInt(LineStation::getDuration).sum();
+        int distance = paths.stream().mapToInt(LineStation::getDistance).sum();
 
         List<Station> pathStation = path.stream()
                 .map(it -> extractStation(it, stations))

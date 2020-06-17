@@ -3,13 +3,13 @@ package wooteco.subway;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
 import wooteco.subway.infra.JwtTokenProvider;
 import wooteco.subway.service.line.dto.LineDetailResponse;
 import wooteco.subway.service.line.dto.LineResponse;
@@ -27,7 +27,6 @@ import java.util.Map;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql("/truncate.sql")
 public class AcceptanceTest {
     public static final String STATION_NAME_KANGNAM = "강남역";
     public static final String STATION_NAME_YEOKSAM = "역삼역";
@@ -46,6 +45,9 @@ public class AcceptanceTest {
     public static final String TEST_USER_NAME = "브라운";
     public static final String TEST_USER_PASSWORD = "brown";
 
+    @Autowired
+    private Truncate truncate;
+
     @LocalServerPort
     public int port;
 
@@ -57,6 +59,7 @@ public class AcceptanceTest {
 
     @BeforeEach
     public void setUp() {
+        truncate.deleteAll();
         RestAssured.port = port;
     }
 

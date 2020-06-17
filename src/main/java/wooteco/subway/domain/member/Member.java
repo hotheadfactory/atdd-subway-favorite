@@ -1,17 +1,21 @@
 package wooteco.subway.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Embedded;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "member")
 public class Member {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String name;
+    @JsonIgnore
     private String password;
-    @Embedded.Empty
-    private Favorites favorites = Favorites.empty();
+    private Favorites favorites = new Favorites();
 
     public Member() {
     }

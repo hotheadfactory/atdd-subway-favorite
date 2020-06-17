@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import wooteco.subway.service.line.dto.LineStationCreateRequest;
 import wooteco.subway.domain.line.Line;
 import wooteco.subway.domain.line.LineRepository;
 import wooteco.subway.domain.line.LineStation;
 import wooteco.subway.domain.station.Station;
+import wooteco.subway.service.line.dto.LineStationCreateRequest;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -64,7 +64,7 @@ public class LineServiceTest {
 
         assertThat(line.getStations()).hasSize(4);
 
-        List<Long> stationIds = line.getStationIds();
+        List<Long> stationIds = line.getStationEntities();
         assertThat(stationIds.get(0)).isEqualTo(4L);
         assertThat(stationIds.get(1)).isEqualTo(1L);
         assertThat(stationIds.get(2)).isEqualTo(2L);
@@ -80,7 +80,7 @@ public class LineServiceTest {
 
         assertThat(line.getStations()).hasSize(4);
 
-        List<Long> stationIds = line.getStationIds();
+        List<Long> stationIds = line.getStationEntities();
         assertThat(stationIds.get(0)).isEqualTo(1L);
         assertThat(stationIds.get(1)).isEqualTo(4L);
         assertThat(stationIds.get(2)).isEqualTo(2L);
@@ -96,7 +96,7 @@ public class LineServiceTest {
 
         assertThat(line.getStations()).hasSize(4);
 
-        List<Long> stationIds = line.getStationIds();
+        List<Long> stationIds = line.getStationEntities();
         assertThat(stationIds.get(0)).isEqualTo(1L);
         assertThat(stationIds.get(1)).isEqualTo(2L);
         assertThat(stationIds.get(2)).isEqualTo(3L);
@@ -110,7 +110,7 @@ public class LineServiceTest {
 
         assertThat(line.getStations()).hasSize(2);
 
-        List<Long> stationIds = line.getStationIds();
+        List<Long> stationIds = line.getStationEntities();
         assertThat(stationIds.get(0)).isEqualTo(2L);
         assertThat(stationIds.get(1)).isEqualTo(3L);
     }
@@ -130,7 +130,7 @@ public class LineServiceTest {
 
         assertThat(line.getStations()).hasSize(2);
 
-        List<Long> stationIds = line.getStationIds();
+        List<Long> stationIds = line.getStationEntities();
         assertThat(stationIds.get(0)).isEqualTo(1L);
         assertThat(stationIds.get(1)).isEqualTo(2L);
     }

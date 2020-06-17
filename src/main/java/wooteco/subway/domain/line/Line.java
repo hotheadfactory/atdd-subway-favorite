@@ -1,17 +1,20 @@
 package wooteco.subway.domain.line;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.relational.core.mapping.Embedded;
+import wooteco.subway.domain.station.Station;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name = "line")
 public class Line {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private LocalTime startTime;
@@ -21,8 +24,8 @@ public class Line {
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
-    @Embedded.Empty
-    private LineStations stations = LineStations.empty();
+    @Embedded
+    private LineStations stations = new LineStations();
 
     public Line() {
     }
@@ -89,11 +92,11 @@ public class Line {
         stations.add(lineStation);
     }
 
-    public void removeLineStationById(Long stationId) {
-        stations.removeById(stationId);
+    public void removeLineStation(Long stationId) {
+        stations.removeByStationId(stationId);
     }
 
-    public List<Long> getStationIds() {
-        return stations.getStationIds();
+    public List<Station> getStationEntities() {
+        return stations.getStationEntities();
     }
 }
