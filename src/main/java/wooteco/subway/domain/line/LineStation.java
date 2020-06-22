@@ -14,10 +14,10 @@ public class LineStation {
     @ManyToOne(targetEntity = Line.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "line")
     private Line line;
-    @ManyToOne(targetEntity = Station.class, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "pre_Station_id")
     private Station preStation;
-    @ManyToOne(targetEntity = Station.class, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "station_id")
     private Station station;
     @Column(nullable = false)

@@ -2,7 +2,6 @@ package wooteco.subway.domain.member;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -13,8 +12,7 @@ import java.util.Set;
 public class Favorites {
     public static final String FAVORITE_NOT_EXIST = "등록되어 있지 않은 즐겨찾기입니다.";
 
-    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
-    @JoinColumn(name = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Set<Favorite> favorites = new LinkedHashSet<>();
 
     protected Favorites() {

@@ -5,18 +5,20 @@ import wooteco.subway.domain.station.Station;
 import javax.persistence.*;
 import java.util.Objects;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member")
     private Member member;
-    @ManyToOne(targetEntity = Station.class, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "source_id")
     private Station sourceStation;
-    @ManyToOne(targetEntity = Station.class, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "destination_id")
     private Station destinationStation;
 
@@ -38,6 +40,10 @@ public class Favorite {
 
     public Station getDestinationStation() {
         return destinationStation;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 
     @Override

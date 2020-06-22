@@ -15,6 +15,7 @@ public class Member {
     private String name;
     @JsonIgnore
     private String password;
+    @Embedded
     private Favorites favorites = new Favorites();
 
     public Member() {
@@ -67,6 +68,7 @@ public class Member {
     }
 
     public void addFavorite(Favorite favorite) {
+        favorite.setMember(this);
         favorites.add(favorite);
     }
 

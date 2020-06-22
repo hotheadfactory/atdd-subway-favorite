@@ -11,10 +11,12 @@ import wooteco.subway.service.member.dto.FavoriteRequest;
 import wooteco.subway.service.member.dto.FavoriteResponse;
 import wooteco.subway.service.station.StationService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class FavoriteService {
     private MemberRepository memberRepository;
     private StationService stationService;
